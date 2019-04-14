@@ -11,7 +11,3 @@ http
   })
   .listen(1337, '127.0.0.1');
 console.log('Server running at http://127.0.0.1:1337/');
-
-// Function that handles the reading of files (templates that we have) and merge in value
-//    read from file and get a string
-//         merge values in to string (do a quick search of template files and populate the information that we get from the json from Treehouse)

@@ -1,4 +1,5 @@
 var Profile = require('./profile.js');
+var renderer = require('./renderer.js');
 
 // Handle the HTTP route GET / and POST / i.e. Home
 function homeRoute(request, response) {
@@ -6,12 +7,13 @@ function homeRoute(request, response) {
   if (request.url === '/') {
     //      show the search field
     response.writeHead(200, { 'Content-Type': 'text/plain' });
-    response.write('Header\n');
-    response.write('Search\n');
-    response.end('Footer\n');
-    //    if the url == "/" && POST
-    //      redirect to /:username
+    renderer.view('header', {}, response);
+    renderer.view('Search', {}, response);
+    renderer.view('Footer', {}, response);
+    response.end();
   }
+  //    if the url == "/" && POST
+  //      redirect to /:username
 }
 // Handle HTTP route GET /:username i.e. /chalkers
 function userRoute(request, response) {
@@ -19,7 +21,7 @@ function userRoute(request, response) {
   var username = request.url.replace('/', '');
   if (username.length > 0) {
     response.writeHead(200, { 'Content-Type': 'text/plain' });
-    response.write('Header\n');
+    renderer.view('header', {}, response);
     // this is where we get the json from Treehouse
     var studentProfile = new Profile(username);
     // on "end" (when all the data come back)
@@ -33,14 +35,17 @@ function userRoute(request, response) {
         javascriptPoints: profileJSON.points.JavaScript
       };
       // Simple response
-      response.write(values.username + 'has ' + values.badges + ' badges\n');
-      response.end('Footer\n');
+      renderer.view('profile', values, response);
+      renderer.view('footer', {}, response);
+      response.end();
     });
     // on "error"
     studentProfile.on('error', function(error) {
       // show the error
-      response.write(error.message + '\n');
-      response.end('Footer\n');
+      renderer.view('error', { errorMessage: error.message }, response);
+      renderer.view('Search', {}, response);
+      renderer.view('footer', {}, response);
+      response.end();
     });
   }
 }
