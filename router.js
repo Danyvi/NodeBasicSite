@@ -1,12 +1,13 @@
 var Profile = require('./profile.js');
 var renderer = require('./renderer.js');
 
+var commonHeaders = { 'Content-Type': 'text/html' };
 // Handle the HTTP route GET / and POST / i.e. Home
 function homeRoute(request, response) {
   //    if the url == "/" && GET
   if (request.url === '/') {
     //      show the search field
-    response.writeHead(200, { 'Content-Type': 'text/plain' });
+    response.writeHead(200, commonHeaders);
     renderer.view('header', {}, response);
     renderer.view('Search', {}, response);
     renderer.view('Footer', {}, response);
@@ -20,7 +21,7 @@ function userRoute(request, response) {
   //  if the url == "/...." (anything)
   var username = request.url.replace('/', '');
   if (username.length > 0) {
-    response.writeHead(200, { 'Content-Type': 'text/plain' });
+    response.writeHead(200, commonHeaders);
     renderer.view('header', {}, response);
     // this is where we get the json from Treehouse
     var studentProfile = new Profile(username);
