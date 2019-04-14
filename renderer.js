@@ -5,7 +5,7 @@ function mergeValues(values, content) {
   // Cylcle over keys of these values (avatarUrl, username, badges, javascriptPoints in values from router.js)
   for (var key in values) {
     // replace all {{keys}} (that is an instance of the key) with the values that we passed in from the values object
-    // we are getting dinamically getting the keys value from the 'values' dictionary we can use values[key]
+    // we are getting dynamically getting the keys value from the 'values' dictionary we can use values[key]
     // this values.avatarUrl is the equivalent of (===) values["avatarUrl"] but since we are in the cycle we have to use:
     content = content.replace('{{ ' + key + ' }}', values[key]);
   }
